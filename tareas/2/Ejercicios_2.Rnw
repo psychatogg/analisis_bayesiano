@@ -1,0 +1,74 @@
+\documentclass[10pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage[version=4]{mhchem}
+\usepackage{stmaryrd}
+\allowdisplaybreaks
+
+
+\begin{document}
+Resolución \\
+\\
+1. \\
+\begin{align*}
+& \text{Distribución beta(2,8):} \\
+& E(\pi \mid y) =\frac{\alpha+y}{\alpha+\beta+n} = \frac{2+18}{2+8+50} = 0,33 \\
+\\
+& \operatorname{Var}(\pi \mid y) =\frac{(\alpha+y)(\beta+n-y)}{(\alpha+\beta+n)^2(\alpha+\beta+n+1)} = \\
+& \frac{(2+18)(8+50-18)}{(2+8+50)^2(2+8+50+1)} = 3,64 \cdot 10^{-3} \\
+\\
+& \alpha_{post} = 20 \\
+& \beta_{post} = 40 \\
+\end{align*}
+<<>>=
+cat(sprintf("Li = %6.3f Ls = %6.3f", qbeta(0.025, 20,40), qbeta(0.975, 20,40)))
+@
+\begin{align*}
+& \text{Distribución beta(16,64):} \\
+& E(\pi \mid y) = \frac{16+18}{16+64+50} = 0,26 \\
+\\
+& \operatorname{Var}(\pi \mid y) =\frac{(\alpha+y)(\beta+n-y)}{(\alpha+\beta+n)^2(\alpha+\beta+n+1)} = \\
+& \frac{(16+18)(64+50-18)}{(16+64+50)^2(16+64+50+1)} = 1,47 \cdot 10^{-3}  \\
+\\
+& \alpha_{post} = 34 \\
+& \beta_{post} = 96 \\
+\end{align*}
+<<>>=
+cat(sprintf("Li = %6.3f Ls = %6.3f", qbeta(0.025, 34,96), qbeta(0.975, 34,96)))
+@
+2. \\
+<<fig=T,out.width="50%">>=
+## Priori
+pr <- seq(0, 1, by=0.01)
+
+f1 <- dbeta(pr, 2, 8)
+f2 <- dbeta(pr, 16, 64)
+
+plot(pr, f1, type="l", lwd=1.5,
+xlab=expression(pi),
+ylab=expression(paste("f(",pi,")")),
+ylim=c(0, 10), col="navyblue")
+lines(pr, f2, type="l", lwd=1.5, col="firebrick")
+
+legend(0.6, 4, c("a=2, b=8", "a=16, b=64"), col=c("navyblue", "firebrick"), lwd=1.5)
+@
+<<fig=T,out.width="50%">>=
+## Posteriori
+pr <- seq(0, 1, by=0.01)
+
+f1 <- dbeta(pr, 20, 40)
+f2 <- dbeta(pr, 34, 96)
+
+plot(pr, f1, type="l", lwd=1.5,
+xlab=expression(pi),
+ylab=expression(paste("f(",pi,")")),
+ylim=c(0, 11), col="navyblue")
+lines(pr, f2, type="l", lwd=1.5, col="firebrick")
+
+legend(0.6, 4, c("a=20, b=40", "a=34, b=96"), col=c("navyblue", "firebrick"), lwd=1.5)
+@
+
+\end{document}
