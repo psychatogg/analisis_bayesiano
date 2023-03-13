@@ -1,0 +1,275 @@
+\documentclass[10pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage[version=4]{mhchem}
+\usepackage{stmaryrd}
+\allowdisplaybreaks
+
+
+\begin{document}
+Resolución \\
+\\
+1.1. \\
+\begin{align*}
+& P(A)=\frac{80}{1 \cdot 10^4}=8 \cdot 10^{-3} \\
+& P(P \mid A)=0,87 \\
+& P(P \mid \bar{A})=0,04 \\
+\\
+& P(P \cap A)=P(A) \cdot P(P \mid A)= \\
+& 8 \cdot 10^{-3} \cdot 0,87=6,96 \cdot 10^{-3} \\
+\\
+& P(P \cap \bar{A})=P(\bar {A}) \cdot P(P \mid \bar{A})= \\
+& (1 - 8 \cdot 10^{-3}) \cdot 0,04 = \\
+& 0,04 \\
+\\
+& P(P)=P(P \cap A)+P(P \cap \bar{A}) =  \\
+& 6,96 \cdot 10^{-3}+0,04= \\
+& 0,05
+\end{align*}
+\\
+1.2. \\
+\begin{align*}
+& P(A \mid P) = \frac{P(P \cap A)}{P(P)} = \\
+& \frac{6,96 \cdot 10^{-3}}{0,05} = 0,14  \\
+\end{align*}
+\\
+2.1. \\
+\begin {align*}
+& \text{Distribución gamma (5, 1):} \\
+& E(\mu \mid \boldsymbol{x})=\mu_{a-\text { posteriori }}=\frac{\frac{\theta}{\tau^2}+\frac{n \bar{X}}{\sigma^2}}{\frac{1}{\tau^2}+\frac{n}{\sigma^2}} = \\
+& \frac{\frac{4}{1^2}+\frac{10 \cdot 6}{3^2}}{\frac{1}{1^2}+\frac{10}{3^2}}= 5,05 \\
+\\
+& \operatorname{Desv}(\mu \mid \boldsymbol{x})=\sigma_{a-\text { posteriori }}=(\frac{1}{\frac{1}{\tau^2}+\frac{n}{\sigma^2}})^{\frac{1}{2}} = \\
+& \left(\frac{1}{\frac{1}{1^2}+\frac{10}{3^2}}\right)^{1 / 2}= 0,69 \\
+\\
+& \text{Con $\alpha = 0,05$, el intervalo de confianza es: } \\
+\end {align*}
+\\
+<<>>=
+qnorm(0.025, 5.05, 0.69)
+qnorm(0.975, 5.05, 0.69)
+@
+\begin{align*}
+& IC_{\mu-\text{post}} = (3,69, \quad  6,4) \\
+\\
+& \text{Distribución gamma (20, 2):} \\
+& E(\mu \mid \boldsymbol{x})=\mu_{a-\text { posteriori }}=\frac{\frac{\theta}{\tau^2}+\frac{n \bar{X}}{\sigma^2}}{\frac{1}{\tau^2}+\frac{n}{\sigma^2}} = \\
+& \frac{\frac{4}{8^2}+\frac{10 \cdot 6}{3^2}}{\frac{1}{8^2}+\frac{10}{3^2}}= 5,97 \\
+\\
+& \operatorname{Desv}(\mu \mid \boldsymbol{x})=\sigma_{a-\text { posteriori }}=(\frac{1}{\frac{1}{\tau^2}+\frac{n}{\sigma^2}})^{\frac{1}{2}} = \\
+& \left(\frac{1}{\frac{1}{8^2}+\frac{10}{3^2}}\right)^{1 / 2}= 0,94 \\
+\\
+& \text{Con $\alpha = 0,05$, el intervalo de confianza es: } \\
+\end {align*}
+\\
+<<>>=
+qnorm(0.025, 5.97, 0.94)
+qnorm(0.975, 5.97, 0.94)
+@
+\begin{align*}
+& IC_{\mu-\text{post}} = (4,12, \quad  7,81) \\
+\end {align*}
+2.2. \\
+<<fig=TRUE>>=
+## Distribución gamma (5, 1):
+# Datos del ejemplo
+x <- c(5, 4, 3, 6, 9, 10, 2, 6, 8, 7)
+n <- length(x)
+
+theta <- 4
+tau <- 1
+
+sigma <- 3
+
+# Estimador máximo-verosímil e intervalo de confianza
+media <- mean(x)
+se <- sigma/sqrt(n)
+
+li_ml <- qnorm(0.025, media, se)
+ls_ml <- qnorm(0.975, media, se)
+
+# Estimador EAP e intervalo de probabilidad posterior
+sigma2 <- sigma^2
+tau2 <- tau^2
+
+sigma2_post <- 1/((1/tau2)+(n/sigma2))
+sigma_post <- sqrt(sigma2_post)
+
+mu_post <- ((theta/tau^2) + (n*media/sigma2)) * sigma2_post
+
+li_post <- qnorm(0.025, mu_post, sigma_post)
+ls_post <- qnorm(0.975, mu_post, sigma_post)
+
+# Representación gráfica de f(mu) y f(mu|x)
+mu <- seq(0, 10, by=0.001)
+f1 <- dnorm(mu, theta, tau)
+f2 <- dnorm(mu, mu_post, sigma_post)
+plot(mu, f1, col="firebrick", lwd=1.5, type="l", ylim=c(0,max(f1,f2)), xlab="", ylab="")
+lines(mu, f2, col="goldenrod", lwd=1.5)
+legend(8,0.45,
+c(expression(paste("f(",mu,")")), expression(paste("f(", mu, "|x)"))),
+col=c("firebrick","goldenrod"), lwd=1.5)
+@
+<<fig=TRUE>>=
+## Distribución gamma (20, 2):
+# Datos del ejemplo
+x <- c(5, 4, 3, 6, 9, 10, 2, 6, 8, 7)
+n <- length(x)
+
+theta <- 4
+tau <- 8
+
+sigma <- 3
+
+# Estimador máximo-verosímil e intervalo de confianza
+media <- mean(x)
+se <- sigma/sqrt(n)
+
+li_ml <- qnorm(0.025, media, se)
+ls_ml <- qnorm(0.975, media, se)
+
+# Estimador EAP e intervalo de probabilidad posterior
+sigma2 <- sigma^2
+tau2 <- tau^2
+
+sigma2_post <- 1/((1/tau2)+(n/sigma2))
+sigma_post <- sqrt(sigma2_post)
+
+mu_post <- ((theta/tau^2) + (n*media/sigma2)) * sigma2_post
+
+li_post <- qnorm(0.025, mu_post, sigma_post)
+ls_post <- qnorm(0.975, mu_post, sigma_post)
+
+# Representación gráfica de f(mu) y f(mu|x)
+mu <- seq(0, 10, by=0.001)
+f1 <- dnorm(mu, theta, tau)
+f2 <- dnorm(mu, mu_post, sigma_post)
+plot(mu, f1, col="firebrick", lwd=1.5, type="l", ylim=c(0,max(f1,f2)), xlab="", ylab="")
+lines(mu, f2, col="goldenrod", lwd=1.5)
+legend(8,0.45,
+c(expression(paste("f(",mu,")")), expression(paste("f(", mu, "|x)"))),
+col=c("firebrick","goldenrod"), lwd=1.5)
+@
+\\
+2.3. \\
+Podemos observar cómo una mayor dispersión en la distribución a priori conlleva a mayores dispersiones a posteriori.\\
+Por otra parte, las densidades de probabilidad a posteriori son proporcionales a las a priori, por lo que cuanta más certidumbre previa del valor del estadístico, mayor certidumbre tengo del nuevo valor que adquiere una vez dispongo de más información. \\
+\\
+3.1. \\
+<<fig=TRUE>>=
+x <- c(0, 2, 6, 1, 6, 3, 2, 7, 2, 1)
+n <- length(x)
+medx <- mean(x)
+
+## Distribución gamma (5, 1): 
+alpha <- 5
+beta <- 1
+lambda <- seq(0,10,by=0.01)
+## funciones a priori y posteriori
+
+f_priori <- function(lambda){
+	((beta^alpha)/gamma(alpha))*lambda^(alpha-1)*exp(-beta*lambda)
+}
+
+alpha_post <- sum(x)+alpha
+beta_post <- n +beta
+f_posteriori <- dgamma(lambda, alpha_post, beta_post)
+
+
+
+plot(lambda, f_priori(lambda), col="firebrick", lwd=1.5, type="l",ylim=c(0,max(f_priori(lambda),f_posteriori)), xlab="", ylab="")
+lines(lambda, f_posteriori, col="goldenrod", lwd=1.5)
+legend(8,0.45,
+c(expression(paste("f(",lambda,")")), expression(paste("f(", lambda, "|x)"))),
+col=c("firebrick","goldenrod"), lwd=1.5)
+
+@
+<<fig = TRUE>>=
+## Distribución gamma (20, 2):
+alpha <- 20
+beta <- 2
+lambda <- seq(0,10,by=0.01)
+f_priori <- function(lambda){
+	((beta^alpha)/gamma(alpha))*(lambda^(alpha-1))*exp(-beta*lambda)
+}
+
+alpha_post <- sum(x)+alpha
+beta_post <- n +beta
+f_posteriori <- dgamma(lambda, alpha_post, beta_post)
+
+
+plot(lambda, f_priori(lambda), col="firebrick", lwd=1.5, type="l",ylim=c(0,max(f_priori(lambda),f_posteriori)), xlab="", ylab="")
+lines(lambda, f_posteriori, col="goldenrod", lwd=1.5)
+legend(8,0.45,
+c(expression(paste("f(",lambda,")")), expression(paste("f(", lambda, "|x)"))),
+col=c("firebrick","goldenrod"), lwd=1.5)
+@
+\\
+3.2 \\
+\begin{align*}
+& \text {Distribución gamma (5, 1):} \\
+& E(\lambda) =\frac{\alpha}{\beta} = \frac{5}{1} = 5 \\
+\\
+& E(\lambda \mid \boldsymbol{x}) =\frac{n \bar{X}+\alpha}{n+\beta} = \frac{10 \cdot 3+5}{10+1} = 3,18 \\
+\\
+& \operatorname{Var}(\lambda) = \frac{\alpha}{\beta^{2}} = 5 \\
+\\
+& \operatorname{Var}(\lambda \mid \boldsymbol{x}) =\frac{n \bar{X}+\alpha}{(n+\beta)^2} = \\
+& \frac{10 \cdot 3+5}{(10+1)^{2}} = 0,289 \\
+\\
+& \hat{\lambda} =\bar{X} =  3 \\
+& \operatorname{Var}(\hat{\lambda}) =\frac{\lambda}{n} = \frac{3}{10} = 0,3 \\
+& L_{s\text{priori}} = 3 + 1,96 \sqrt{\frac{3}{10}} = 4,07\\
+& L_{i\text{priori}} = 3 - 1,96 \sqrt{\frac{3}{10}} = 1,92\\
+& IC_{\lambda-\text{priori}} = (4,07, \quad  1,92) \\
+\end {align*}
+\\
+<<>>=
+alpha <- 5
+beta <- 1
+alpha_post <- sum(x)+alpha
+beta_post <- n +beta
+qgamma(0.025,alpha_post,beta_post)
+qgamma(0.975,alpha_post,beta_post)
+@
+
+
+\begin{align*}
+& IC_{\lambda-\text{post}} = (2,22, \quad  4,32) \\
+\\
+& \text {Distribución gamma (20, 2):} \\
+& E(\lambda) =\frac{\alpha}{\beta} = \frac{20}{2} = 10 \\
+\\
+& E(\lambda \mid \boldsymbol{x}) =\frac{n \bar{X}+\alpha}{n+\beta} = \frac{10 \cdot 3+20}{10+2} =  4,17\\
+\\
+& \operatorname{Var}(\lambda) = \frac{\alpha}{\beta^{2}} = 5 \\
+\\
+& \operatorname{Var}(\lambda \mid \boldsymbol{x}) =\frac{n \bar{X}+\alpha}{(n+\beta)^2} = \\
+& \frac{10 \cdot 3+20}{(10+2)^{2}} = 0,35 \\
+\\
+& \hat{\lambda} =\bar{X} =  3 \\
+& \operatorname{Var}(\hat{\lambda}) =\frac{\lambda}{n} = \frac{3}{10} = 0,3 \\
+& L_{s\text{priori}} = 3 + 1,96 \sqrt{\frac{3}{10}} = 4,07\\
+& L_{i\text{priori}} = 3 - 1,96 \sqrt{\frac{3}{10}} = 1,92\\
+& IC_{\lambda-\text{priori}} = (4,07, \quad  1,92) \\
+\end{align*}
+\\
+<<>>=
+alpha <- 20
+beta <- 2
+alpha_post <- sum(x)+alpha
+beta_post <- n +beta
+qgamma(0.025,alpha_post,beta_post)
+qgamma(0.975,alpha_post,beta_post)
+@
+
+\begin{align*}
+& IC_{\lambda-\text{post}} = (3,09, \quad  5,4) \\
+\end {align*} \\
+\\
+3.3. \\
+Podemos observar cómo, a igualdad de dispersión entre las a priori, el desplazamiento de las curvas posteriori será proporcional a la distancia respecto al valor esperado de la muestra.
+\end{document}
