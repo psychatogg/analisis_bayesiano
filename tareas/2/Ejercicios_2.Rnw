@@ -72,5 +72,8 @@ legend(0.6, 4, c("a=20, b=40", "a=34, b=96"), col=c("navyblue", "firebrick"), lw
 @
 \\
 3. \\
-Los investigadores deberían rechazar la hipótesis nula, dado que, ambas distribuciones a posteriori presentan un valor esperado superior a 0,2 , a pesar de que el valor esperado de la a priori beta(2,8) fuese inferior en un primer momento. Podemos apreciar cómo $p_{observada}$ desplaza ambas curvas hacia valores superiores.
+Los investigadores deberían rechazar la hipótesis nula, dado que, ambas distribuciones a posteriori presentan un valor esperado superior a 0,2 , a pesar de que el valor esperado de la a priori beta(2,8) fuese inferior en un primer momento. \\
+Podemos apreciar cómo $p_{observada}$ desplaza ambas curvas hacia valores superiores, mostrando a su vez que beta(16,64) era ciertamente más informativa que la anterior. \\
+\\
+4. \\
 \end{document}
