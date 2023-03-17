@@ -33,4 +33,5 @@ traceplot(fit, pars="theta")
 stan_hist(fit, pars="theta")
 stan_dens(fit, pars="theta")
 stan_ac(fit, pars="theta")
+plot(fit)
 
