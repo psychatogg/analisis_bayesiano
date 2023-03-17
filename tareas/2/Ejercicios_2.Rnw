@@ -72,8 +72,8 @@ legend(0.6, 4, c("a=20, b=40", "a=34, b=96"), col=c("navyblue", "firebrick"), lw
 @
 \\
 1.3. \\
-Los investigadores deberían rechazar la hipótesis nula, dado que, ambas distribuciones a posteriori presentan un valor esperado superior a 0,2 , a pesar de que el valor esperado de la a priori beta(2,8) fuese inferior en un primer momento. \\
-Podemos apreciar cómo $p_{observada}$ desplaza ambas curvas hacia valores superiores, mostrando a su vez que beta(16,64) era ciertamente más informativa que la anterior. \\
+Los investigadores deberían rechazar la hipótesis nula, dado que, ambas distribuciones a posteriori presentan un valor esperado superior a 0,2. \\
+Beta(16,64) es más informativa, por lo que las dispersiones son inferiores en la distribución a posteriori. \\
 \\
 1.4. \\
 \\
@@ -99,4 +99,5 @@ Pr_v <- apply(p_mat, mean, MARGIN = 2)
 P_3prim = Pr_v[1] * Pr_v[2] * Pr_v[3] * (1-Pr_v[4]) * (1-Pr_v[5])
 print (P_3prim)
 @
+2.2.\\
 \end{document}
