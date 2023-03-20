@@ -104,11 +104,12 @@ print (P_3prim)
 2.3. \\
 Cadenas de Markov: Podemos observar una convergencia aceptable dada la estabilidad de los valores simulados. Los valores muestreados son representativos de la distribución a posteriori. \\
 \\
-La distribución $f(\theta \mid y)$, con media aproximada de 0,3. \\
+La distribución $f(\theta \mid y)$, con media aproximada de 0,31. \\
 \\
-Con un $95 \%$ de confianza, el verdadero valor de $\theta$ se encuentra entre -1,06 y 1,71.\\
+Con un $95 \%$ de confianza, el verdadero valor de $\theta$ se encuentra entre -1,07 y 1,71.\\
 \\
 La autocorrelación disminuye al auumentar la distancia entre valores, es decir, las observaciones de la serie están correlacionadas positivamente con las observaciones anteriores. \\
 \\
 3. \\
+Con un 96\% de confianza, el parámetro poblacional $\mu$, tras observar los datos muestreados, se encontrará entre los valores 2.592 y 4.028.
 \end{document}
