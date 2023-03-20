@@ -30,8 +30,3 @@ exitos ~ binomial(N, pi);
 fit <- stan(model_code = codigo, data = datos)
 print(fit)
 
-stan_plot(fit)
-stan_trace(fit)
-stan_hist(fit)
-stan_dens(fit)
-stan_ac(fit, pars="pi")
