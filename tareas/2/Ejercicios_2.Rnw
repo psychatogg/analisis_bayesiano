@@ -100,4 +100,15 @@ P_3prim = Pr_v[1] * Pr_v[2] * Pr_v[3] * (1-Pr_v[4]) * (1-Pr_v[5])
 print (P_3prim)
 @
 2.2.\\
+\\
+2.3. \\
+Cadenas de Markov: Podemos observar una convergencia aceptable dada la estabilidad de los valores simulados. Los valores muestreados son representativos de la distribución a posteriori. \\
+\\
+La distribución $f(\theta \mid y)$, con media aproximada de 0,3. \\
+\\
+Con un $95 \%$ de confianza, el verdadero valor de $\theta$ se encuentra entre -1,06 y 1,71.\\
+\\
+La autocorrelación disminuye al auumentar la distancia entre valores, es decir, las observaciones de la serie están correlacionadas positivamente con las observaciones anteriores. \\
+\\
+3. \\
 \end{document}
