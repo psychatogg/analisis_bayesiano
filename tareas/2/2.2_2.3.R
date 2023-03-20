@@ -1,9 +1,10 @@
 library(rstan)
 library(ggplot2)
 
+set.seed(1)
 x <- c(1, 1, 1, 0, 0)
 b <- c(-1.20, -0.65, 0.20, 0.80, 1.15)
-datos_Stan <- list(n_items = length(x), x = x, b = b)
+datos <- list(n_items = length(x), x = x, b = b)
 
 codigo <- "
 data {
@@ -26,12 +27,13 @@ model {
 }
 "
 
-fit <- stan(model_code = codigo, data = datos_Stan, iter = 1000)
+fit <- stan(model_code = codigo, data = datos, iter = 1000)
 print(fit)
 
 traceplot(fit, pars="theta")
 stan_hist(fit, pars="theta")
 stan_dens(fit, pars="theta")
-stan_ac(fit, pars="theta")
 plot(fit)
+stan_ac(fit, pars="theta")
+
 
