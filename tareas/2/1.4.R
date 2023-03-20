@@ -1,3 +1,6 @@
+library(rstan)
+set.seed(1)
+
 y <- 18
 n <- 50
 
