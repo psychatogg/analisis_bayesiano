@@ -39,6 +39,7 @@ cat(sprintf("Li = %6.3f Ls = %6.3f", qbeta(0.025, 20,40), qbeta(0.975, 20,40)))
 <<>>=
 cat(sprintf("Li = %6.3f Ls = %6.3f", qbeta(0.025, 34,96), qbeta(0.975, 34,96)))
 @
+
 1.2. \\
 <<fig=T,out.width="50%">>=
 ## Priori
@@ -70,6 +71,7 @@ lines(pr, f2, type="l", lwd=1.5, col="firebrick")
 
 legend(0.6, 4, c("a=20, b=40", "a=34, b=96"), col=c("navyblue", "firebrick"), lwd=1.5)
 @
+
 1.3. \\
 Los investigadores deberían rechazar la hipótesis nula, dado que, ambas distribuciones a posteriori presentan un valor esperado superior a 0,2. \\
 Beta(16,64) es más informativa, por lo que las dispersiones son inferiores en la distribución a posteriori. \\
@@ -229,7 +231,7 @@ Con un $95 \%$ de confianza, el verdadero valor de $\theta$ se encuentra entre -
 stan_ac(fit, pars="theta")
 @
 
-La autocorrelación disminuye al auumentar la distancia entre valores, es decir, las observaciones de la serie están correlacionadas positivamente con las observaciones anteriores. \\
+La autocorrelación disminuye al aumentar la distancia entre valores, es decir, las observaciones de la serie están correlacionadas positivamente con las observaciones anteriores. \\
 \\
 3. \\
 <<>>=
