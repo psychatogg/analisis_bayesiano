@@ -27,4 +27,22 @@ summary(model_poiss)
 @
 
 1.2. \\
+
+1.3.\\
+
+1.4. \\
+Dado que el primer modelo es frecuentista y parte de diferentes supuestos y trata con la estimación puntual de los coeficientes, no considero que sus resultados sean comparables a los 2 modelos bayesianos siguientes, que tratan con distribuciones a posteriori. \\
+Entre estos últimos, calculamos $AIC = 2 k -2 logverosimilitud$ : \\
+<<>>=
+AIC_2 <- 2*2 - 2*5.56
+AIC_3 <- 2*2 - 2*11.08
+AIC_2
+AIC_3
+@
+
+Por lo tanto, determinamos que el modelo 3 presenta mejor ajuste teniendo en cuenta las penalizaciones de complejidad de dichos modelos.
+\\
+2.1.
+
+
 \end{document}
