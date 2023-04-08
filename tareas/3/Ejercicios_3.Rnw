@@ -41,7 +41,7 @@ AIC_3
 @
 
 Por lo tanto, determinamos que el modelo 3 presenta mejor ajuste teniendo en cuenta las penalizaciones de complejidad de dichos modelos.\\
-Este a su vez nos indica que por cada hora de formación previa recibida, se cometen 0.2 errores menos, frente a los 0.07 del anterior.
+Este a su vez nos indica que por cada hora de formación previa recibida, se cometen 0.2 errores menos de media, frente a los 0.07 del anterior.
 \\
 2.1. \\
 2.2. \\
