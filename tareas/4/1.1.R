@@ -35,6 +35,6 @@ codigo <- "
   "
 fit <- stan(model_code = codigo, data = datos, iter = 1000)
 print(fit)
-D<- unlist(extract(fit, pars='D'))
-DIC <- mean(D) + 0.5 *var(D)
-print(DIC)
+D1<- unlist(extract(fit, pars='D'))
+DIC1 <- mean(D1) + 0.5 *var(D1)
+print(DIC1)
