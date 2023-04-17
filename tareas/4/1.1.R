@@ -10,23 +10,25 @@ codigo <- "
   }
   
   parameters {
-  real mu;
+  real mu1;
+  real mu2;
   }
   model{
-  mu ~ normal(0,5);
+  mu1 ~ normal(0,5);
+  mu2 ~ normal(0,5);
   for(i in 1:n){
-		x1[i] ~ normal(mu,1);
+		x1[i] ~ normal(mu1,1);
 		}
 	for(i in 1:n){
-		x2[i] ~ normal(mu,1);
+		x2[i] ~ normal(mu2,1);
 		} 
   }
   generated quantities{
   real D;
   D =  0;
   for (i in 1:n){
-  D += normal_lpdf(x1[i] | mu,1);
-  D += normal_lpdf(x2[i] | mu,1);
+  D += normal_lpdf(x1[i] | mu1,1);
+  D += normal_lpdf(x2[i] | mu2,1);
   }
   D*= -2;
   }
