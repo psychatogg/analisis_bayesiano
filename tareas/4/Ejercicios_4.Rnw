@@ -1,0 +1,26 @@
+\documentclass[10pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage[version=4]{mhchem}
+\usepackage{stmaryrd}
+\allowdisplaybreaks
+
+
+\begin{document}
+<<include=FALSE,echo=FALSE>>=
+options(width=60)
+library(formatR)
+@
+Resolución \\
+\\
+1.1. \\
+\\
+1.2.\\
+\\
+1.3.\\
+
+
+\end{document}
