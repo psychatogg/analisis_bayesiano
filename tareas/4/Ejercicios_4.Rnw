@@ -26,7 +26,9 @@ cat(sprintf("\nModelo 1. mean D = %8.2f. pD = %8.2f. DIC = %8.2f\n
 Modelo 2. mean D = %8.2f. pD = %8.2f. DIC = %8.2f\n",
 mean(D1), 0.5*var(D1), DIC1, mean(D2), 0.5*var(D2), DIC2))
 @
-Ambos modelos se encuentran próximos a los datos. El modelo 2 es más sencillo que el 1, pero presenta menor ajuste. Elijo por lo tanto el modelo 1.
-Conclusión: El rendimiento en orientación  espacial es superior en hombre que en mujeres. \\
+El modelo 2 es más sencillo que el 1, y presenta mayor ajuste. Elijo por lo tanto el modelo 2.
+Conclusión: El rendimiento en orientación  espacial es igual en hombres y mujeres. \\
+\\
+2.1. \\
 
 \end{document}
