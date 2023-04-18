@@ -32,7 +32,7 @@ codigo <- "
   real D;
   D =  0;
   for (i in 1:n){
-  D += gamma_lpdf(x[i] | exp(tau+omega*x[i])*phi,phi);
+  D += gamma_lpdf(y[i] | exp(tau+omega*x[i])*phi,phi);
   }
   D*= -2;
   }
