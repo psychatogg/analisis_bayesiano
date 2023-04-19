@@ -42,14 +42,15 @@ codigo <- "
   real alpha_D;
   real beta_D;
   beta_D = phi;
+  real yPred[n];
   D =  0;
   for (i in 1:n){
   	if(modelo == 1){
   	alpha_D = exp(tau+omega1*x[i])*phi;
   	} else {
-  	alpha_D = exp(tau+omega1*x[i]+omega2*(x[i])^2)*phi;
+  	alpha_D = exp(tau+omega1*x[i]+omega2*(x[i])^2)*phi;;
   	}
-  
+  yPred[i] = gamma_rng(alpha_D, beta_D);
   D += gamma_lpdf(x[i] | alpha_D,beta_D);
   }
   D*= -2;
