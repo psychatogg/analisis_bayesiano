@@ -116,7 +116,7 @@ cat(sprintf("\nModelo 1. mean D = %8.2f. pD = %8.2f. DIC = %8.2f\n
 Modelo 2. mean D = %8.2f. pD = %8.2f. DIC = %8.2f\n",
 mean(D1), 0.5*var(D1), DIC1, mean(D2), 0.5*var(D2), DIC2))
 @
-El modelo 2 presenta peor ajuste y es más sencillo. Por otra parte, su IC posterior para mu no incluye el 0 por lo que con un 95\% de confianza no podemos asumir que la diferencia entre ambos grupos sea nula. Elijo por lo tanto el modelo 1. \\
+El modelo 2 presenta peor ajuste, pero es más sencillo. Sin embargo, su IC posterior para mu no incluye el 0 por lo que con un 95\% de confianza no podemos asumir que la diferencia entre ambos grupos sea nula. Elijo por lo tanto el modelo 1. \\
 Conclusión: El rendimiento en orientación  espacial es mayor en hombres que en mujeres. \\
 \\
 2.1. \\
@@ -155,12 +155,12 @@ codigo <- "
   real D;
   D =  0;
   for (i in 1:n){
-  D += gamma_lpdf(x[i] | exp(tau+omega*x[i])*phi,phi);
+  D += gamma_lpdf(y[i] | exp(tau+omega*x[i])*phi,phi);
   }
   D*= -2;
   }
   "
-fit <- stan(model_code = codigo, data = datos, iter = 1000)
+fit <- stan(model_code = codigo, data = datos, iter = 2000)
 print(fit)
 D1<- unlist(extract(fit, pars='D'))
 DIC1 <- mean(D1) + 0.5 *var(D1)
@@ -205,12 +205,12 @@ codigo <- "
   real D;
   D =  0;
   for (i in 1:n){
-  D += gamma_lpdf(x[i] | exp(tau+omega1*x[i]+omega2*(x[i])^2)*phi,phi);
+  D += gamma_lpdf(y[i] | exp(tau+omega1*x[i]+omega2*(x[i])^2)*phi,phi);
   }
   D*= -2;
   }
   "
-fit <- stan(model_code = codigo, data = datos, iter = 1000)
+fit <- stan(model_code = codigo, data = datos, iter = 2000)
 print(fit)
 D2<- unlist(extract(fit, pars='D'))
 DIC2 <- mean(D1) + 0.5 *var(D2)
@@ -272,13 +272,13 @@ codigo <- "
   	alpha_D = exp(tau+omega1*x[i]+omega2*(x[i])^2)*phi;;
   	}
   yPred[i] = gamma_rng(alpha_D, beta_D);
-  D += gamma_lpdf(x[i] | alpha_D,beta_D);
+  D += gamma_lpdf(y[i] | alpha_D,beta_D);
   }
   D*= -2;
   }
   "
-fit1 <- stan(model_code = codigo, data = datos1, iter = 1000)
-fit2 <- stan(model_code = codigo, data = datos2, iter = 1000)
+fit1 <- stan(model_code = codigo, data = datos1, iter = 2000)
+fit2 <- stan(model_code = codigo, data = datos2, iter = 2000)
 
 D1 <- unlist(extract(fit1, pars='D'))
 D2 <- unlist(extract(fit2, pars='D'))
@@ -299,10 +299,10 @@ library(ggplot2)
 yPred_1 <- extract(fit1,"yPred")
 ## Empleo los últimos 10 valores de la última iteración
 yPred_1 <- yPred_1[[1]]
-yPred_1 <- yPred_1[2000,1:10]
+yPred_1 <- yPred_1[4000,1:10]
 yPred_2 <- extract(fit2,"yPred")
 yPred_2 <- yPred_2[[1]]
-yPred_2 <- yPred_2[2000,1:10]
+yPred_2 <- yPred_2[4000,1:10]
 
 data_1 <- as.data.frame( cbind(x,y,yPred_1))
 data_2 <- as.data.frame(cbind(x,y,yPred_2))
@@ -334,5 +334,6 @@ ggplot(data_2, aes(x, y)) +
 @
 
 2.5. \\
-El modelo 2 es más sencillo que el 1, y presenta mayor ajuste. Elijo por lo tanto el modelo 2.
+El modelo 1 es más sencillo, pero presenta un ajuste considerablemente menor. \\
+Elijo el modelo 2 pues.
 \end{document}
