@@ -37,7 +37,7 @@ codigo <- "
   D*= -2;
   }
   "
-fit <- stan(model_code = codigo, data = datos, iter = 1000)
+fit <- stan(model_code = codigo, data = datos, iter = 2000)
 print(fit)
 D1<- unlist(extract(fit, pars='D'))
 DIC1 <- mean(D1) + 0.5 *var(D1)

@@ -56,8 +56,8 @@ codigo <- "
   D*= -2;
   }
   "
-fit1 <- stan(model_code = codigo, data = datos1, iter = 1000)
-fit2 <- stan(model_code = codigo, data = datos2, iter = 1000)
+fit1 <- stan(model_code = codigo, data = datos1, iter = 2000)
+fit2 <- stan(model_code = codigo, data = datos2, iter = 2000)
 
 D1 <- unlist(extract(fit1, pars='D'))
 D2 <- unlist(extract(fit2, pars='D'))
