@@ -51,7 +51,7 @@ codigo <- "
   	alpha_D = exp(tau+omega1*x[i]+omega2*(x[i])^2)*phi;;
   	}
   yPred[i] = gamma_rng(alpha_D, beta_D);
-  D += gamma_lpdf(x[i] | alpha_D,beta_D);
+  D += gamma_lpdf(y[i] | alpha_D,beta_D);
   }
   D*= -2;
   }

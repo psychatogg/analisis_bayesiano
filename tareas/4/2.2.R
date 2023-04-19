@@ -34,7 +34,7 @@ codigo <- "
   real D;
   D =  0;
   for (i in 1:n){
-  D += gamma_lpdf(x[i] | exp(tau+omega1*x[i]+omega2*(x[i])^2)*phi,phi);
+  D += gamma_lpdf(y[i] | exp(tau+omega1*x[i]+omega2*(x[i])^2)*phi,phi);
   }
   D*= -2;
   }
