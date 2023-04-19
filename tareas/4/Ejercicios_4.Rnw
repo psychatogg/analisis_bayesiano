@@ -1,5 +1,6 @@
 \documentclass[10pt]{article}
 \usepackage[utf8]{inputenc}
+\usepackage[a4paper, margin=0.5cm]{geometry}
 \usepackage[T1]{fontenc}
 \usepackage{amsmath}
 \usepackage{amsfonts}
@@ -10,10 +11,7 @@
 
 
 \begin{document}
-<<include=FALSE,echo=FALSE,warnings=FALSE,tidy=TRUE>>=
-options(width=60)
-library(formatR)
-@
+
 Resolución \\
 \\
 1.1. \\
@@ -111,7 +109,7 @@ print(DIC2)
 
 
 1.3.\\
-<<>>=
+<<tidy=TRUE>>=
 cat(sprintf("\nModelo 1. mean D = %8.2f. pD = %8.2f. DIC = %8.2f\n
 Modelo 2. mean D = %8.2f. pD = %8.2f. DIC = %8.2f\n",
 mean(D1), 0.5*var(D1), DIC1, mean(D2), 0.5*var(D2), DIC2))
@@ -218,7 +216,7 @@ print(DIC2)
 @
 
 2.3.\\
-<<>>=
+<<tidy=TRUE>>=
 y <- c(93, 66, 42, 45, 38, 32, 36, 43, 40, 53)
 x <- c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
 datos1 <- list(n = length(x), x = x, y = y, modelo=1)
@@ -294,7 +292,7 @@ print(fit2)
 @
 
 2.4. \\
-<<fig=TRUE,out.width="50%">>=
+<<fig=TRUE,out.width="50%",tidy=TRUE>>=
 library(ggplot2)
 yPred_1 <- extract(fit1,"yPred")
 ## Empleo los últimos 10 valores de la última iteración
@@ -316,18 +314,18 @@ ggplot(data_1, aes(x, y)) +
 	geom_line(aes(color = "y")) +
 	geom_point(aes(x, yPred_1, color = "yPred")) +
 	scale_color_manual(name = "Grupos", 
-										 values = c("y" = "black", "yPred" = "red")) +
+		values = c("y" = "black", "yPred" = "red")) +
 	labs(color = "Leyenda") + 
 	ggtitle("Modelo 1")
 @
 
-<<fig=TRUE,out.width="50%">>=
+<<fig=TRUE,out.width="50%",tidy = TRUE>>=
 ggplot(data_2, aes(x, y)) + 
 	geom_point(aes(color = "y")) + 
 	geom_line(aes(color = "y")) +
 	geom_point(aes(x, yPred_2, color = "yPred")) +
 	scale_color_manual(name = "Grupos", 
-										 values = c("y" = "black", "yPred" = "red")) +
+		values = c("y" = "black", "yPred" = "red")) +
 	labs(color = "Leyenda") +
 	ggtitle("Modelo 2")
 	
