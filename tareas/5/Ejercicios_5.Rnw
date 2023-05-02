@@ -1,0 +1,58 @@
+\documentclass[10pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper, margin=0.5cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage[version=4]{mhchem}
+\usepackage{stmaryrd}
+\allowdisplaybreaks
+
+
+\begin{document}
+
+Resolución \\
+\\
+1.1. \\
+<<>>=
+library(rstan)
+y <- c(15, 7, 5, 11, 10, 7, 25, 9, 21, 1, 2, 2, 0, 10, 4, 8, 0, 10, 17, 4)
+w <- c(2, 2, 3, 2, 3, 3, 1, 3, 1, 4, 5, 4, 5, 1, 5, 4, 5, 2, 1, 4)
+
+datos <- list(n = length(w), w = w, y = y)
+codigo <- "
+  data {
+    int<lower=0> n;
+    int<lower=0> w[n];
+    int<lower=0> y[n];
+  }
+  
+  parameters {
+  real tau;
+  real omega;
+  }
+  model{
+  tau ~ normal(0,5);
+  omega ~ normal(0,5);
+	for(i in 1:n){
+		y[i] ~ poisson(exp(tau+omega*w[i]));
+	}
+  }
+  generated quantities{
+  real D;
+  D =  0;
+  for (i in 1:n){
+  D += poisson_lpmf(y[i] | exp(tau + omega * w[i]));
+  }
+  D*= -2;
+  }
+  "
+fit <- stan(model_code = codigo, data = datos, iter = 2000)
+print(fit)
+D1<- unlist(extract(fit, pars='D'))
+DIC1 <- mean(D1) + 0.5 *var(D1)
+print(DIC1)
+@
+
+\end{document}
