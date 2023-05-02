@@ -133,8 +133,6 @@ pPost <- mean(medPred >= med)
 etiqueta <- sprintf("Universidad %1.0f. medObs = %.3f, medPred = %.3f(%.3f), pPost = %.3f\n",
 i, med, mean(medPred), sd(medPred), pPost)
 cat(etiqueta)
-hist(medPred, xlim=c(0,30),  main="")
-abline(v=med, lwd=2, col="darkgreen")
 }
 @
 
