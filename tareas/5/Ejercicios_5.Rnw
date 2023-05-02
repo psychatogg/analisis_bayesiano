@@ -17,6 +17,8 @@ Resolución \\
 1.1. \\
 <<>>=
 library(rstan)
+rstan_options(auto_write = TRUE)
+options(mc.cores = parallel::detectCores())
 y <- c(15, 7, 5, 11, 10, 7, 25, 9, 21, 1, 2, 2, 0, 10, 4, 8, 0, 10, 17, 4)
 w <- c(2, 2, 3, 2, 3, 3, 1, 3, 1, 4, 5, 4, 5, 1, 5, 4, 5, 2, 1, 4)
 
@@ -54,5 +56,96 @@ D1<- unlist(extract(fit, pars='D'))
 DIC1 <- mean(D1) + 0.5 *var(D1)
 print(DIC1)
 @
+
+1.2 \\
+<<>>=
+y <- c(15, 7, 5, 11, 10, 7, 25, 9, 21, 1, 2, 2, 0, 10, 4, 8, 0, 10, 17, 4)
+w <- c(2, 2, 3, 2, 3, 3, 1, 3, 1, 4, 5, 4, 5, 1, 5, 4, 5, 2, 1, 4)
+z <- c(4, 1, 1, 3, 4, 2, 4, 3, 3, 1, 3, 2, 1, 1, 4, 4, 2, 2, 2, 3)
+
+n <- length(y)
+m <- max(z)
+
+datos <- list(n=n, m=m, y=y, w=w, z=z)
+
+codigo <- "
+data {
+int n;
+int m;
+int y[n];
+int w[n];
+int z[n];
+}
+
+parameters {
+real tau[m] ;
+real omega ;
+real muTau;
+real<lower=0> sigmaTau;
+}
+
+model {
+real peso;
+
+
+muTau ~ normal(0, 5);
+sigmaTau ~ chi_square(1);
+tau ~ normal(muTau, sigmaTau);
+omega ~ normal(0,5);
+
+for(i in 1:n){
+peso = tau[z[i]] + omega*w[i];
+y[i] ~ poisson(exp(peso));
+}
+
+}
+
+generated quantities{
+int yPred[n];
+real peso;
+real D;
+
+D = 0;
+for(i in 1:n){
+peso = tau[z[i]] + omega*w[i];
+yPred[i] = poisson_rng(exp(peso));
+D += poisson_lpmf(y[i] | exp(peso));
+}
+D *= -2;
+
+}
+"
+
+fit <- stan(model_code = codigo, data = datos)
+print(fit, pars=c("tau", "omega", "muTau", "sigmaTau"))
+D2 <- unlist(extract(fit, pars='D'))
+DIC2 <- mean(D2) + 0.5 * var(D2)
+print(DIC2)
+@
+
+<<>>=
+yPred <- extract(fit, "yPred")
+
+for(i in 1:max(z)){
+med <- mean(y[which(z==i)])
+medPred <- rowMeans(yPred[[1]][,which(z==i)])
+pPost <- mean(medPred >= med)
+etiqueta <- sprintf("Universidad %1.0f. medObs = %.3f, medPred = %.3f(%.3f), pPost = %.3f\n",
+i, med, mean(medPred), sd(medPred), pPost)
+cat(etiqueta)
+hist(medPred, xlim=c(0,30),  main="")
+abline(v=med, lwd=2, col="darkgreen")
+}
+@
+
+1.3.\\
+<<>>=
+cat(sprintf("\nModelo 1. mean D = %8.2f. pD = %8.2f. DIC = %8.2f\n
+Modelo 2. mean D = %8.2f. pD = %8.2f. DIC = %8.2f\n",
+mean(D1), 0.5*var(D1), DIC1, mean(D2), 0.5*var(D2), DIC2))
+@
+
+Como podemos observar, el modelo 2 está más cercano a los datos, compensando su mayor complejidad. En esta misma línea de bondad de ajuste, observamos cómo por cada Universidad, las medias de errores observados y predichos no se alejan en exceso. \\ 
+Elegimos pues el modelo 2. \\
 
 \end{document}
